@@ -16,30 +16,30 @@ You can get python from https://www.python.org/downloads/
 
 1. **Clone the Repository**
    Clone the repository to your local machine using Git:
-   '''batch
+   ```bash
    git clone https://github.com/Odatas/Habit-Hero.git
-   '''
+   ```
 
 2. **Navigate to the Project Directory**
    Change to the directory where the project is located:
-   '''batch
+   ```bash
    cd Habit-Hero
-   '''
+   ```
 
 3. **Install Dependencies**
    Install necessary libraries or frameworks. Example for Python:
-   '''batch
+   ```bash
    pip install -r requirements.txt
-   '''
+   ```
 
 4. **Setting Up the Environment**
    Guide for creating and configuring a `.env` file or other environment setups.
 
 5. **Running the Application**
    Command to start the application, for example in Python:
-   '''batch
+   ```bash
    python orchestrator.py
-   '''
+   ```
 
 
 ## Launching the Application
