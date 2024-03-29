@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Oct  5 17:55:29 2023
-
-@author: patri
-"""
-
-
 import logging
 from datetime import datetime, timedelta
 
@@ -14,7 +6,7 @@ def average_duration_between_dates(dates):
     """
     Calculates the average duration between consecutive dates in a list of dates.
 
-    Args:
+    Parameters:
         dates (list): List of dates in 'YYYY-MM-DD' format.
 
     Returns:
@@ -22,16 +14,20 @@ def average_duration_between_dates(dates):
     """
     if not dates or len(dates) < 2:
         return 0
+    # Convert strings to datetime objects and sort the dates
     sorted_dates = sorted([datetime.strptime(date, "%Y-%m-%d") for date in dates])
+    # Calculate the number of days between consecutive dates
     durations = [(sorted_dates[i] - sorted_dates[i - 1]).days for i in range(1, len(sorted_dates))]
-    return int(sum(durations) / len(durations))
+
+    # Return the average duration, rounded to the nearest whole number
+    return round(sum(durations) / len(durations))
 
 
 def count_performed_in_month(dates, month, year):
     """
     Count the number of times the habit was performed in a specific month.
 
-    Args:
+    Parameters:
         dates (list): List of dates in 'YYYY-MM-DD' format.
         month (int): The month to filter by (1-12).
         year (int): The year to filter by.
@@ -46,7 +42,7 @@ def longest_break_between_dates(dates):
     """
     Finds the longest break (in days) between two consecutive dates in a list of dates.
 
-    Args:
+    Parameters:
         dates (list): List of dates in 'YYYY-MM-DD' format.
 
     Returns:
@@ -64,10 +60,10 @@ def days_until_date(target_date_str: str) -> int:
     Returns the number of days until or since the given target date.
 
     Parameters:
-    target_date_str (str): Target date as a string in "YYYY-MM-DD" format.
+        target_date_str (str): Target date as a string in "YYYY-MM-DD" format.
 
     Returns:
-    int: Number of days until target date. Positive if the target date is in the future, negative if it is in the past.
+        int: Number of days until target date. Positive if the target date is in the future, negative if it is in the past.
     """
     try:
         # Convert the string date to a datetime object
@@ -79,8 +75,6 @@ def days_until_date(target_date_str: str) -> int:
     # Calculate the difference between target date and current date
     today = datetime.now().date()
     difference = target_date - today
-
-    # Log the result
     logging.debug(f"Days until {target_date_str}: {difference.days}")
 
     # Return the difference in days as an integer
@@ -92,11 +86,11 @@ def find_longest_streak(date_logs: list[str], frequency: str) -> int:
     Calculate the longest consecutive streak from a list of dates based on a given frequency.
 
     Parameters:
-    date_logs (list of str): List of dates in "YYYY-MM-DD" format sorted in ascending order.
-    frequency (str): Expected frequency of habit; "Daily", "Weekly", "Monthly", or a digit as a string.
+        date_logs (list of str): List of dates in "YYYY-MM-DD" format sorted in ascending order.
+        frequency (str): Expected frequency of habit; "Daily", "Weekly", "Monthly", or a digit as a string.
 
     Returns:
-    int: Longest streak of consecutive dates according to the specified frequency.
+        int: Longest streak of consecutive dates according to the specified frequency.
     """
     longest_streak = 1
     current_streak = 1
@@ -118,37 +112,16 @@ def find_longest_streak(date_logs: list[str], frequency: str) -> int:
     return longest_streak, streak_broken
 
 
-# def calculate_consistency_rate(date_logs: list[str], frequency: str):
-#     """
-#     Calculate the consistency rate of a habit.
-
-#     Args:
-#     total_days_tracked (int): Total number of days the habit has been tracked.
-#     times_streak_broken (int): Number of times the habit streak was broken.
-
-#     Returns:
-#     float: The consistency rate as a percentage.
-#     """
-#     _, times_streak_broken = find_longest_streak(date_logs, frequency)
-#     total_days_tracked = len(date_logs)
-
-#     if total_days_tracked == 0:
-#         return 0.0
-
-#     successful_days = total_days_tracked - times_streak_broken
-#     consistency_rate = (successful_days / total_days_tracked) * 100
-#     return consistency_rate
-
 def calculate_consistency_rate(date_logs: list[str], frequency: str):
     """
-    Calculate the consistency rate of a habit.
+    Calculate the consistency rate of a habit. Consistentcy Rate is defiend by percented of successfull iterations.
 
-    Args:
-    date_logs (list[str]): List of dates in "YYYY-MM-DD" format.
-    frequency (str): Expected frequency of habit; "Daily", "Weekly", "Monthly", or a digit as a string.
+    Parameters:
+        date_logs (list[str]): List of dates in "YYYY-MM-DD" format.
+        frequency (str): Expected frequency of habit; "Daily", "Weekly", "Monthly", or a digit as a string.
 
     Returns:
-    float: The consistency rate as a percentage.
+        float: The consistency rate as a percentage.
     """
     longest_streak, times_streak_broken = find_longest_streak(date_logs, frequency)
     total_days_tracked = len(date_logs)
@@ -171,12 +144,12 @@ def next_habit_due(last_performed_str: str, frequency: str) -> str:
     Checks if the habit is overdue based on the last performed date and frequency.
 
     Parameters:
-    last_performed_str (str): Last date the habit was performed, in 'YYYY-MM-DD' format.
-    frequency (str): Expected frequency of the habit; can be "Daily", "Weekly", "Monthly", or a digit as a string representing days.
-    today_str (str): Optional. The date to check, in 'YYYY-MM-DD' format. Defaults to the current date.
+        last_performed_str (str): Last date the habit was performed, in 'YYYY-MM-DD' format.
+        frequency (str): Expected frequency of the habit; can be "Daily", "Weekly", "Monthly", or a digit as a string representing days.
+        today_str (str): Optional. The date to check, in 'YYYY-MM-DD' format. Defaults to the current date.
 
     Returns:
-    bool: True if the habit is overdue, False otherwise.
+        bool: True if the habit is overdue, False otherwise.
     """
     logging.debug("Analyzer.next_habit_due called")
     today = datetime.now()
@@ -185,6 +158,7 @@ def next_habit_due(last_performed_str: str, frequency: str) -> str:
 
     logging.debug(f"Analyzer.next_habit_due frequency {frequency}")
 
+    # Based on the frequency we need to do different things.
     if frequency == 'Daily':
         due_date = last_performed + timedelta(days=1)
 
@@ -194,7 +168,7 @@ def next_habit_due(last_performed_str: str, frequency: str) -> str:
         else:
             check_range = 63  # Max days of two consecutiv months. Happening for juli and dcember and the onth after.
         last_true = None
-        # To find the next due date we will iterate to every possibleity until we find the first one that doesnt fit.
+        # To find the next due date we will iterate through all possible dates until we find the first one that doesnt fit.
         # The one before is our new due date.
         for i in range(check_range):
             possible_due_date = last_performed + timedelta(days=i)
@@ -207,14 +181,12 @@ def next_habit_due(last_performed_str: str, frequency: str) -> str:
                 break
     # Every x days
     elif "Days" in frequency:
-
         number_frequency = int(frequency.split(" ")[1])
         due_date = last_performed + timedelta(days=number_frequency)
 
-    # Every Weekday
+    # Every Weekday. Maybe using a table to switch from frequceny string to an id would have been smarter.
     elif "Days" not in frequency and "Every" in frequency:
         weekday = frequency.split(" ")[1]
-        # .strftime('%A')
         for i in range(1, 8):
             due_date = last_performed + timedelta(days=i)
             logging.debug(f"Analyezer.next_habit_due weekday {due_date.strftime('%A')}")
@@ -234,16 +206,16 @@ def verify_frequency_in_range(curr_date: datetime, prev_date: datetime, frequenc
     Verify if the timespan between two date matches the given frequency.
 
     Parameters:
-    - curr_date (datetime): The current date.
-    - prev_date (datetime): The previous date.
-    - frequency (str): The desired frequency (e.g., 'Daily', 'Weekly', 'Monthly', '3 Days', 'Every Monday').
-    - strict (bool): Whether the frequency verification should be strict or not. Doesnt apply to all cases.
+        curr_date (datetime): The current date.
+        prev_date (datetime): The previous date.
+        frequency (str): The desired frequency (e.g., 'Daily', 'Weekly', 'Monthly', '3 Days', 'Every Monday').
+        strict (bool): Whether the frequency verification should be strict or not. Doesnt apply to all cases.
 
     Returns:
-    - bool: True if the two dates are in the desired range, False otherwise.
+        bool: True if the two dates are in the desired range, False otherwise.
     """
     logging.debug("Analyzer.verify_frequency_in_range called")
-    # Just checking if both dates are 1 day apart.
+    # Daily is easy.
     if frequency == "Daily":
         logging.debug("Analyzer.verify_frequency_in_range Frequency Daily")
         delta_days = (curr_date - prev_date).days
@@ -251,6 +223,7 @@ def verify_frequency_in_range(curr_date: datetime, prev_date: datetime, frequenc
             return True
         else:
             return False
+
     # Check if both week numbers are one apart.
     elif frequency == "Weekly":
         logging.debug("Analyzer.verify_frequency_in_range Frequency Weekly")
@@ -283,8 +256,9 @@ def verify_frequency_in_range(curr_date: datetime, prev_date: datetime, frequenc
 
     # Every x days.
     # Get delta of days and see if they match the frequency number.
+    # Strict means it needs to be exactly X days.
     elif "Days" in frequency:
-        logging.debug("Analyzer.verify_frequency_in_range Frequency every x days")
+        logging.debug("Frequency every x days")
         number_frequency = int(frequency.split(" ")[1])
         if strict is None:
             logging.error("Strict has no value.")
