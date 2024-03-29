@@ -12,7 +12,7 @@ This application was developed with python version 3.9.13. Other versions may or
 
 You can get python from https://www.python.org/downloads/
 
-## Installation Instructions
+## Installation and Lunching Instructions
 
 1. **Clone the Repository**
    Clone the repository to your local machine using Git:
@@ -33,19 +33,14 @@ You can get python from https://www.python.org/downloads/
    ```
 
 4. **Running the Application**
-   Command to start the application:
+   Run the application:
    ```bash
    python orchestrator.py
    ```
 
-
-## Launching the Application
-
-After installing the dependencies, you can start the application by running the orchestrator.py script. 
-
 ### Dummy Data for Testing
 
-Habit Hero comes with a script `savefile_adder` that you can use to generate dummy data. This is particularly useful for testing purposes, allowing you to see how the application performs with various data sets. To use this feature, run the `savefile_adder` script after you've set up the application.
+Habit Hero comes with a script `savefile_adder.py` that you can use to generate dummy data. This is particularly useful for testing purposes, allowing you to see how the application performs with various data sets. To use this feature, run the `savefile_adder.py` script after you've set up the application before you run the application.
 
 
 ## Usage
@@ -55,3 +50,8 @@ Once the application is up and running, you can add, edit, or remove habits as p
 ## Contributing
 
 Contributions to Habit Hero are always welcome. Whether it's bug reports, feature requests, or code contributions, feel free to fork the repo and submit a pull request with your changes.
+
+### License
+
+"Habit-Hero" is licensed under the GNU General Public License v3.0. This license allows users to modify, distribute, and use the software freely, but it requires that any modified versions are also open source under the same license. It ensures that end users have the freedom to run, study, share, and modify the software. For more detailed information, please refer to the [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.en.html).
+
