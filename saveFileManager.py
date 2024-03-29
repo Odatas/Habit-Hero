@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Sep 16 12:11:27 2023
-
-@author: patri
-"""
-
 import json
 import os
 from habit import Habit
@@ -29,7 +22,7 @@ class SaveFileManager:
 
         If the savefile doesn't exist at the specified path, it creates an empty one.
 
-        Args:
+        Parameters:
             savefile_path (str, optional): The path to the savefile. Defaults to "habithero_savefile.json".
         """
         self.savefile_path = savefile_path
@@ -54,9 +47,6 @@ class SaveFileManager:
         Parameters:
         - user_name (str): Name of the user.
         - habits_list (list): List of Habit objects to be saved.
-
-        Returns:
-        None
 
         Raises:
         - IOError: If there's an issue writing to the save file.

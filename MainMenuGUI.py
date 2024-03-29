@@ -8,6 +8,19 @@ import HabitAnalyzerGUI
 
 
 class MainMenuGUIFrame(wx.Frame):
+    """
+    The main menu frame of the application, providing an interface to manage and track habits.
+
+    This frame contains a list of habits with details such as name, frequency, start date, 
+    last performed date, next due date, days until due, and current streak. It also includes 
+    options to perform a habit now, add a new habit, edit an existing habit, remove a habit, 
+    and access analytics for a specific habit.
+
+    Parameters:
+        parent (wx.Window): The parent window for this frame.
+        title (str): The title of the frame.
+        Orchestrator (Orchestrator): An instance of the Orchestrator class, used for habit management.
+    """
 
     def __init__(self, parent, title, Orchestrator):
         """Initialize the MainMenuGUIFrame with a given title and orchestrator."""
@@ -112,6 +125,13 @@ class MainMenuGUIFrame(wx.Frame):
         self.data_view.SetColumnWidth(4, wx.LIST_AUTOSIZE)
 
     def on_analyze(self, event):
+        """
+        This method opens the analytics GUI for the selected habit. 
+        If no habit is selected, it shows a warning message.
+
+        Parameters:
+            event (wx.Event): The event object.
+        """
         selection = self.data_view.GetNextSelected(-1)
         if selection == -1:  # Check if no row is selected
             wx.MessageBox("Please select a habit to edit!", "Warning", wx.OK | wx.ICON_WARNING)
@@ -120,9 +140,21 @@ class MainMenuGUIFrame(wx.Frame):
         HabitAnalyzerGUI.AnalyzeGUI(selected_habit, title=selected_habit.name)
 
     def on_new(self, event):
+        """
+        Opens the frame to add a new habit.
+
+        Parameters:
+            event (wx.Event): The event object.
+        """
         AddHabitFrame(self, self.Orchestrator, title="Add new habbit")
 
     def on_edit(self, event):
+        """
+        Opens the frame to edit the selected habit.
+
+        Parameters:
+            event (wx.Event): The event object.
+        """
         selection = self.data_view.GetNextSelected(-1)
         if selection == -1:  # Check if no row is selected
             wx.MessageBox("Please select a habit to edit!", "Warning", wx.OK | wx.ICON_WARNING)
@@ -130,6 +162,13 @@ class MainMenuGUIFrame(wx.Frame):
         AddHabitFrame(self, self.Orchestrator, habit=self.Orchestrator.habits[selection], title="Edit habbit")
 
     def on_remove(self, event):
+        """
+        This method prompts for confirmation before removing the habit. 
+        If no habit is selected, it shows a warning message.
+
+        Parameters:
+            event (wx.Event): The event object.
+        """
         # Get the selected habit
         selection = self.data_view.GetNextSelected(-1)
         if selection == -1:  # Check if no row is selected
@@ -148,7 +187,14 @@ class MainMenuGUIFrame(wx.Frame):
         dlg.Destroy()
 
     def on_perform(self, event):
-        """Handles the Perform Now action."""
+        """
+        Marks the selected habit as performed for the current day.
+
+        If no habit is selected, it shows a warning message. Logs the 'Perform Now' action.
+
+        Parameters:
+            event (wx.Event): The event object.
+        """
         logging.info("Perform Now button pressed.")
         # Get the selected habit
         selection = self.data_view.GetNextSelected(-1)
@@ -158,9 +204,3 @@ class MainMenuGUIFrame(wx.Frame):
 
         logging.info(f"Performing habit at row: {selection}")
         self.Orchestrator.perform_habit_today(selection)
-
-
-if __name__ == "__main__":
-    app = wx.App(False)
-    frame = MainMenuGUIFrame(None, "Habit Hero", None)
-    app.MainLoop()

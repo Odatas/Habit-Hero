@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Sep 16 12:35:39 2023
-
-@author: patri
-"""
-
 import wx
 import logging
 
@@ -72,7 +65,7 @@ class UserSelectionFrame(wx.Frame):
     def on_user_select(self, event):
         """Handles event when a user is selected from the dropdown.
 
-        Args:
+        Parameters:
             event (wx.Event): The event object.
         """
         logging.debug("Combobox Set.")
@@ -83,7 +76,7 @@ class UserSelectionFrame(wx.Frame):
     def on_text_entry(self, event):
         """Handles event when text is entered.
 
-        Args:
+        Parameters:
             event (wx.Event): The event object.
         """
         logging.debug("Textctrl set.")
@@ -95,7 +88,7 @@ class UserSelectionFrame(wx.Frame):
     def on_ok(self, event):
         """Handles the OK button event.
 
-        Args:
+        Parameters:
             event (wx.Event): The event object.
         """
         logging.debug("OK button pressed.")
@@ -121,7 +114,7 @@ class UserSelectionFrame(wx.Frame):
     def on_cancel(self, event):
         """Handles the Cancel button event, shutting down the frame.
 
-        Args:
+        Parameters:
             event (wx.Event): The event object.
         """
         logging.debug("Cancel button pressed. Closing down.")

@@ -187,10 +187,3 @@ class AddHabitFrame(wx.Frame):
             self.Orchestrator.create_new_habit(name, goal, frequency, start_date=start_date, strict=strict)
 
         self.Close()
-
-
-#
-if __name__ == "__main__":
-    app = wx.App(False)
-    frame = AddHabitFrame(None, None)
-    app.MainLoop()

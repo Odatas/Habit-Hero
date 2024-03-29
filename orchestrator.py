@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Sep  2 11:52:55 2023
-
-@author: patri
-"""
-
 from MainMenuGUI import MainMenuGUIFrame
 from saveFileManager import SaveFileManager
 from habit import Habit
@@ -13,8 +6,20 @@ import logging
 
 
 class Orchestrator:
+    """
+    Manages the overall functionality of the habit tracking application.
+
+    This class is responsible for initializing and managing the main components of the application, 
+    including handling habits, user data, and the graphical user interface.
+
+    The Orchestrator class interacts with the SaveFileManager for data persistence and provides 
+    methods to manage habits and user data.
+    """
+
     def __init__(self):
-        """Initializes the Orchestrator, setting up habits list, FileManager, and starting the GUI loop."""
+        """
+        Initializes the Orchestrator, setting up the list of habits, FileManager, and starting the GUI loop.
+        """
         logging.info("Initializing Orchestrator.")
         self.habits = []
         self.SaveFileManager = SaveFileManager()
@@ -26,48 +31,56 @@ class Orchestrator:
         self.app.MainLoop()
 
     def set_username(self, Username):
-        """Sets the username for the current session.
+        """
+        Sets the username for the current session.
 
-        Args:
+        Parameters:
             Username (str): The desired username.
         """
         logging.info(f"Setting username to {Username}.")
         self.Username = Username
 
     def delete_habit(self, index):
-        """Deletes a habit based on its index in the list.
-
-        Args:
-            index (int): Index of the habit to be deleted.
         """
+        Deletes a habit based on its index in the list.
+
+        Parameters:
+            index (int): The index of the habit to be deleted.
+        """
+
         logging.info(f"Deleting habit at index {index}.")
         del self.habits[index]
         self.update_data()
 
     def get_users(self):
-        """Fetches all users from the SaveFileManager.
+        """
+        Fetches all users from the SaveFileManager.
 
         Returns:
-            list: List of all user names.
+            list: A list of all user names.
         """
+
         logging.info("Fetching all users.")
         return self.SaveFileManager.get_all_users()
 
     def create_new_user(self, user):
-        """Creates a new user and saves an empty data set for them.
-
-        Args:
-            user (str): Name of the new user.
         """
+        Creates a new user and saves an empty data set for them.
+
+        Parameters:
+            user (str): The name of the new user.
+        """
+
         logging.info(f"Creating new user: {user}.")
         self.UserName = user
         self.SaveFileManager.save_data(user, [])
 
     def load_user_data(self, user):
-        """Loads the data associated with a given user.
+        """
+        Loads the data associated with a given user.
 
-        Args:
-            user (str): Name of the user whose data is to be loaded.
+        Parameters:
+            user (str): The name of the user whose data is to be loaded.
         """
         logging.debug("Called load_user_data")
         logging.info(f"Loading data for user: {user}.")
@@ -76,7 +89,9 @@ class Orchestrator:
         self.refresh_main_menu_list()
 
     def save_data(self):
-        """Saves the current data of habits for the user."""
+        """
+        Saves the current data of habits for the user.
+        """
         logging.info(f"Saving data for user: {self.UserName}.")
         try:
             self.SaveFileManager.save_data(self.UserName, self.habits)
@@ -85,9 +100,10 @@ class Orchestrator:
             logging.error(f"Error occurred while saving data for user: {self.UserName}. Error: {str(e)}")
 
     def create_new_habit(self, name, goal, frequency, start_date=None, strict=False):
-        """Creates a new habit and adds it to the list of habits.
+        """
+        Creates a new habit and adds it to the list of habits.
 
-        Args:
+        Parameters:
             name (str): The name of the habit.
             goal (str): The goal or description of the habit.
             frequency (str): How often the habit should be performed.
@@ -103,13 +119,24 @@ class Orchestrator:
         self.update_data()
 
     def refresh_main_menu_list(self):
-        """Refreshes the ListCtrl in MainMenuGUI by deleting all entries and repopulating with data from self.habits."""
+        """
+        Refreshes the ListCtrl in MainMenuGUI by deleting all entries and repopulating with data from self.habits.
+        """
         logging.info("Refreshing main menu list.")
         self.main_menu.data_view.DeleteAllItems()
         for habit in self.habits:
             self.main_menu.add_habit_to_data_view(habit)
 
     def perform_habit_today(self, index):
+        """
+        Marks a habit as performed for the current day based on its index.
+
+        Parameters:
+            index (int): The index of the habit to be marked as performed.
+
+        Returns:
+            tuple: A tuple containing a boolean indicating success or failure, and an error message if applicable.
+        """
         result, errortext = self.habits[index].perform_habit_today()
         if not result:
             wx.MessageBox(errortext, "Warning", wx.OK | wx.ICON_WARNING)
@@ -117,10 +144,22 @@ class Orchestrator:
             self.update_data()
 
     def update_data(self):
+        """
+        Saves the current data and refreshes the main menu list with updated habit information.
+        """
         self.save_data()
         self.refresh_main_menu_list()
 
     def get_habit_by_index(self, index):
+        """
+        Retrieves a habit object by its index in the list.
+
+        Parameters:
+            index (int): The index of the habit.
+
+        Returns:
+            Habit: The habit object at the specified index.
+        """
         return self.habits[index]
 
 
