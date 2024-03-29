@@ -34,15 +34,29 @@ This application is developed using Python 3.9.13. While it is optimized for thi
    python orchestrator.py
    ```
 
-### Dummy Data for Testing
-
-Habit Hero comes with a script `savefile_adder.py` that you can use to generate dummy data. This is particularly useful for testing purposes, allowing you to see how the application performs with various data sets. To use this feature, run the `savefile_adder.py` script after you've set up the application before you run the application.
-
 
 ## Usage
 
 Once the application is up and running, you can add, edit, or remove habits as per your tracking requirements. The application's user interface is intuitive and user-friendly, providing a seamless experience in managing your daily habits.
 
+Additionally, "Habit-Hero" comes equipped with a dummy user account. This feature allows you to explore various functionalities and get a feel for how the application works without the need to input your data immediately. It's a great way to see the potential of the app in action.
+
+### Dummy data
+Habit Hero includes the script savefile_adder.py, which is designed to generate dummy data for the application. This functionality is essential for ensuring that the dummy data remains up-to-date and relevant. By using this script, users can easily simulate a real-world environment with current data, providing a comprehensive preview of how Habit Hero manages and tracks habits over time.
+
+Run this script with:
+
+  ```bash
+   python savefile_adder.py
+   ```
+
+You will then find a new user created when you start the application. Have fun exploring.
+ 
+ 
+### Unit Testing
+
+Habit Hero includes a unittest.py script, which provides a suite of unit tests to ensure the application's stability and reliability. Running these tests is highly recommended, especially after making code changes. To execute the unit tests, simply run the unittest.py script. This will verify that all core functionalities are working correctly and that any updates or modifications to the code do not negatively impact the app's performance or functionality.
+ 
 ## Contributing
 
 Contributions to Habit Hero are always welcome. Whether it's bug reports, feature requests, or code contributions, feel free to fork the repo and submit a pull request with your changes.
