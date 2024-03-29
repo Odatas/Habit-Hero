@@ -8,9 +8,13 @@ This application was developed with python version 3.9.13. Other versions may or
 
 ## Installation
 
-To run Habit Hero, you'll first need to install the necessary Python libraries. The dependencies are listed in the `requirements.txt` file.
+To run Habit Hero, you'll first need to install the necessary Python libraries. The dependencies are listed in the 
 
-To install these dependencies, run the following command in your terminal:
+`requirements.txt`
+
+ file.
+
+You can install easily by using the following command in your terminal:
 ```bash
     pip install -r requirements.txt
 ```
