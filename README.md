@@ -27,16 +27,13 @@ You can get python from https://www.python.org/downloads/
    ```
 
 3. **Install Dependencies**
-   Install necessary libraries or frameworks. Example for Python:
+   Install necessary libraries or frameworks:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Setting Up the Environment**
-   Guide for creating and configuring a `.env` file or other environment setups.
-
-5. **Running the Application**
-   Command to start the application, for example in Python:
+4. **Running the Application**
+   Command to start the application:
    ```bash
    python orchestrator.py
    ```
