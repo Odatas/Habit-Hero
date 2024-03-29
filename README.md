@@ -2,15 +2,11 @@
 
 Habit-Hero is an innovative habit-tracking application designed to help you build and maintain positive habits for a healthier, more productive life. At its core, Habit-Hero leverages the power of consistency and accountability to transform your daily routines. Whether you're aiming to exercise more, read regularly, or meditate, our app makes tracking these habits simple and motivating.
 
-What sets Habit-Hero apart is its user-friendly interface and personalized experience. You can easily create, monitor, and adjust your habits as you progress. Moreover, our app offers insightful analytics, allowing you to review your habit streaks and patterns over time. This feature not only encourages you to stay on track but also provides valuable feedback on your journey towards personal growth.
-
-Join us in making every day count with Habit-Hero, where your small daily actions turn into lifelong beneficial habits!
+What sets Habit-Hero apart is its user-friendly interface and personalized experience. You can easily create, monitor, and adjust your habits as you progress. Moreover, the app offers insightful analytics, allowing you to review your habit streaks and patterns over time. This feature not only encourages you to stay on track but also provides valuable feedback on your journey towards personal growth.
 
 ## Python Version
 
-This application was developed with python version 3.9.13. Other versions may or may not work also. Good luck trying. 
-
-You can get python from https://www.python.org/downloads/
+This application is developed using Python 3.9.13. While it is optimized for this version, it may be compatible with other versions of Python as well. We encourage users to experiment with their version of Python, but for the best experience, using Python 3.9.13 is recommended. You can download the required version of Python from the official website: https://www.python.org/downloads/
 
 ## Installation and Lunching Instructions
 
