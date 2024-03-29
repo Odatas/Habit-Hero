@@ -5,12 +5,26 @@ from datetime import datetime
 
 
 class AddHabitFrame(wx.Frame):
+    """
+    A GUI frame for adding or editing a habit using wxPython.
+
+    This frame allows the user to input details for a new habit or edit an existing one.
+    It includes fields for the habit's name, goal, frequency, strictness, and start date.
+    If an existing habit is being edited, the frame is initialized with the habit's current details.
+
+    Parameters:
+        parent (wx.Window): The parent window.
+        Orchestrator (Orchestrator): An instance of the Orchestrator class.
+        habit (Habit, optional): An existing habit to be edited. Defaults to None.
+        title (str, optional): The title of the frame. Defaults to "Add New Habit".
+    """
+
     def __init__(self, parent, Orchestrator, habit=None, title="Add New Habit"):
         super(AddHabitFrame, self).__init__(parent, title=title, size=(500, 400))
-
         panel = wx.Panel(self)
         self.habit = habit
         self.Orchestrator = Orchestrator
+
         # Layout
         main_sizer = wx.BoxSizer(wx.VERTICAL)
         self.main_sizer = main_sizer
@@ -62,7 +76,8 @@ class AddHabitFrame(wx.Frame):
         main_sizer.Add(self.start_date_label, 0, wx.ALL, 5)
         main_sizer.Add(self.start_date_picker, 0, wx.ALL | wx.EXPAND, 5)
 
-        # If we have a habit then we initialize the "Save" button instead of "Add Habit" button and save it to the existing habit.
+        # If we have a habit then we initialize the "Save" button instead of "Add Habit"
+        # and load the existing Data into the GUI.
         if self.habit:
             save_btn = wx.Button(panel, label="Save")
             save_btn.Bind(wx.EVT_BUTTON, self.on_save)
@@ -85,6 +100,16 @@ class AddHabitFrame(wx.Frame):
         self.Show()
 
     def on_save(self, event=None):
+        """
+        Handles the saving of an edited habit.
+
+        Gathers the habit details from the input fields, updates the habit, and saves it
+        using the Orchestrator. Also, refreshes the main menu list and closes the frame.
+
+        Parameters:
+            event (wx.Event, optional): The event object. Defaults to None.
+        """
+
         new_name = self.name_text.GetValue()
         new_goal = self.goal_text.GetValue()
         new_frequency = self.frequency_choice.GetString(self.frequency_choice.GetSelection())
@@ -95,6 +120,15 @@ class AddHabitFrame(wx.Frame):
         self.Close()
 
     def on_frequency_choice(self, event):
+        """
+        Event handler for selecting a frequency option.
+
+        Shows or hides the visibility of the 'Every X Days' related fields.
+
+        Parameters:
+            event (wx.Event): The event object.
+        """
+
         selection = self.frequency_choice.GetString(self.frequency_choice.GetSelection())
         if selection == 'Every X Days':
             self.days_label.Show(True)
@@ -108,14 +142,26 @@ class AddHabitFrame(wx.Frame):
         self.main_sizer.Layout()
 
     def on_submit(self, event):
+        """
+        Handles the submission of a new habit.
+
+        Validates and gathers the input data, creates a new habit through the Orchestrator,
+        and closes the frame.
+
+        Parameters:
+            event (wx.Event): The event object.
+
+        """
 
         name = self.name_text.GetValue()
         goal = self.goal_text.GetValue()
+
+        # Get the indexx of the choiche and then the choice as string from the index.
         frequency = self.frequency_choice.GetString(self.frequency_choice.GetSelection())
         strict = self.strict_checkbox.GetValue()
 
         # DatepickerCtrl needs to be set into specific format to match the format of the habit class.
-        # TODO Bug when a user doesnt select the same date as he selected in the frequency the date will be set at the date
+        # TODO for spicific frequencys we need to set the date according to the frequency.
         start_date_wx = self.start_date_picker.GetValue()
         start_date = start_date_wx.FormatISODate()
 
@@ -127,8 +173,8 @@ class AddHabitFrame(wx.Frame):
             wx.MessageBox("Please select a frequency.", "Error", wx.OK | wx.ICON_ERROR)
             return
 
-        # For the option "Every X Days" we show a textctrl and need to make sure if the entry is a number
-        # However for the habit class we need the field to be a string.
+        # For the option "Every X Days" we show a textctrl and need to make sure if that the entry is a number
+        # However for the habit class we need the field to be a string. Madness!
         if frequency == 'Every X Days':
             days = self.days_text.GetValue()
             if not days.isdigit():
@@ -141,9 +187,3 @@ class AddHabitFrame(wx.Frame):
             self.Orchestrator.create_new_habit(name, goal, frequency, start_date=start_date, strict=strict)
 
         self.Close()
-
-
-if __name__ == "__main__":
-    app = wx.App(False)
-    frame = AddHabitFrame(None, None)
-    app.MainLoop()
