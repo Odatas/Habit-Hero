@@ -61,7 +61,7 @@ Habit Hero includes a unittest.py script, which provides a suite of unit tests t
 
 Contributions to Habit Hero are always welcome. Whether it's bug reports, feature requests, or code contributions, feel free to fork the repo and submit a pull request with your changes.
 
-### License
+## License
 
 "Habit-Hero" is licensed under the GNU General Public License v3.0. This license allows users to modify, distribute, and use the software freely, but it requires that any modified versions are also open source under the same license. It ensures that end users have the freedom to run, study, share, and modify the software. For more detailed information, please refer to the [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
