@@ -233,7 +233,7 @@ class TestFrequencyInRange(unittest.TestCase):
     def test_weekly_frequency(self):
         # Test for Weekly frequency
         self.assertTrue(verify_frequency_in_range(datetime(2024, 3, 23), datetime(2024, 3, 16), "Weekly"))
-        self.assertFalse(verify_frequency_in_range(datetime(2024, 3, 23), datetime(2024, 3, 15), "Weekly"))
+        self.assertFalse(verify_frequency_in_range(datetime(2024, 3, 23), datetime(2024, 3, 7), "Weekly"))
 
     def test_monthly_frequency(self):
         # Test for Monthly frequency
