@@ -1,14 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Aug 26 10:11:35 2023
-
-@author: patri
-"""
-
-
-from datetime import datetime, timedelta
-import json
-import re
+from datetime import datetime
 import Analyzer
 import logging
 
@@ -17,29 +7,18 @@ class Habit:
     """
     A class to model and track user habits.
 
-    Attributes:
-        name (str): The name of the habit.
-        goal (str): A brief description or objective for pursuing this habit.
-        frequency (str): How often the habit is to be performed. 'Daily', 'Weekly', 'Monthly', or a specific number.
-        start_date (str): The starting date for tracking the habit, formatted as 'YYYY-MM-DD'.
-                        Default is the current date if not provided.
-        strict (bool): Flag to indicate if the habit tracking should strictly adhere to frequency.
-                       Used for custom frequency like 'Every 2 days'.
-        streak (int): The current length of consecutive days on which the habit has been performed.
-        logs (list): A list of dates, each formatted as 'YYYY-MM-DD', that logs when the habit was performed.
+    This class provides methods to create, log, and track habits, including calculating streaks,
+    determining the next due date, and editing habit details. It supports storing habit performance logs
+    and checking them against the defined frequency to manage and track habit adherence.
 
-    Class Methods:
-        from_json(json_str: str) -> 'Habit': Instantiates a Habit object from a JSON string.
-
-    Methods:
-        to_json() -> str: Serializes the Habit object to a JSON string.
-        perform_habit_today(today: str = None): Records the habit as performed for today or a specified date.
-        perform_habit_on_date(date: str): Records the habit as performed on a specific date and sorts the logs.
-        check_habit_due(today: str = None) -> bool: Determines if the habit is overdue based on frequency and last performed date.
-        edit_habit(new_name: str = None, new_goal: str = None, new_frequency: str = None): Updates the habit's attributes.
-        find_longest_streak() -> int: Calculates and returns the longest consecutive streak of performing the habit.
-        display_info(): Prints out all the relevant information about the habit.
-
+    Parameters:
+        name (str): Name of the habit.
+        goal (str): Goal or description of the habit.
+        frequency (str): Frequency of the habit.
+        streak (int, optional): Current streak count. Defaults to 0.
+        start_date (str, optional): The starting date of the habit. Defaults to the current date.
+        strict (bool, optional): If True, the habit must be performed exactly on the due date. Defaults to False.
+        logs (list of str, optional): Initial log entries. Defaults to an empty list.
     """
 
     def __init__(self, name, goal, frequency, streak=0, start_date=None, strict=False, logs=None):
@@ -76,12 +55,41 @@ class Habit:
         return habit_dict
 
     def calculate_next_due_date(self):
+        """
+        Calculates the next due date for the habit based on the last performed date and its frequency.
+
+        This method uses the Analyzer class to determine the next due date. It takes into account
+        the habit's current frequency and the date it was last performed. 
+
+        Returns:
+            datetime.date: The calculated next due date for the habit.
+        """
+
         return Analyzer.next_habit_due(self.get_last_performed(), self.frequency)
 
     def get_last_performed(self):
+        """
+        Retrieves the date when the habit was last performed.
+
+        Returns:
+            str: The date of the last performance of the habit.
+        """
+
         return self.logs[-1]
 
-    def calculate_streak(self, today_str=None):
+    def calculate_streak(self):
+        """
+        Calculates the current streak of habit performance.
+
+        This method computes the number of consecutive times the habit has been performed according to 
+        the defined frequency. The streak is calculated based on the dates logged in 'self.logs', starting from 
+        the most recent log entry and moving backwards in time. If the dates meet the frequency criteria 
+        (as determined by the Analyzer's 'verify_frequency_in_range' method), the streak count increases.
+
+        Returns:
+            int: The number of times the habit has been consecutively performed as per its frequency.
+        """
+
         if len(self.logs) < 2:
             return 1
         else:
@@ -95,19 +103,24 @@ class Habit:
                     break
             return streak
 
-    def perform_habit_today(self, today_str=None):
+    def perform_habit_today(self):
         """
-        Logs the habit as performed for the current day or a specified date.
+        Logs the habit as performed for the current day or a specified date and updates the streak count.
 
-        Args:
-            today_str (str): Optional. The date to log, in 'YYYY-MM-DD' format. Defaults to the current date.
+        This method records the performance of a habit on the current date.
+        It first checks if the habit has already been logged for the given date. If not, and if the 'strict' mode is 
+        enabled, it verifies whether the log date aligns with the 'next_due_date'. For a strict habit, logging is 
+        only allowed on the due date. After logging, it calculates the new streak and updates the 'next_due_date'.
+
+        Returns:
+            tuple:
+                - bool: True if the habit is successfully logged, False otherwise.
+                - str: An error message if the logging is unsuccessful, otherwise an empty string.
         """
+
         logging.debug("habit.perform_habit_today called")
-        if today_str:
-            today = datetime.strptime(today_str, "%Y-%m-%d")
-        else:
-            today = datetime.now()
-            today_str = today.strftime("%Y-%m-%d")
+        today = datetime.now()
+        today_str = today.strftime("%Y-%m-%d")
         self.calculate_streak()
         if today_str not in self.logs:
             if self.strict:
